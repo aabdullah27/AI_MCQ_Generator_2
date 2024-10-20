@@ -139,7 +139,7 @@ if uploaded_file and groq_api_token:
             else:
                 difficulty_level = st.selectbox("🎯 Select difficulty level:", ["Easy", "Medium", "Hard"])
                 num_questions = st.slider("⚖️ Select the number of questions:", min_value=5, max_value=30, step=1)
-                selected_model = st.selectbox("🧠 Select Groq Model:", ["gemma2-9b-it", "llama3-groq-70b-8192-tool-use-preview", "llama3-groq-8b-8192-tool-use-preview", "llama-3.1-70b-versatile"])
+                selected_model = st.selectbox("🧠 Select Groq Model:", ["mixtral-8x7b-32768", "llama3-groq-70b-8192-tool-use-preview", "llama3-groq-8b-8192-tool-use-preview", "llama-3.1-70b-versatile"])
 
                 if st.button("✨ Generate MCQs"):
                     mcqs = generate_mcqs(chunks, difficulty_level, num_questions, selected_model)
