@@ -36,7 +36,7 @@ def is_tech_related(text):
                 "content": f"Classify if the following content is tech-related:\n\n{text[:1500]}"
             }
         ],
-        model="llama3-groq-8b-8192-tool-use-preview"
+        model="mixtral-8x7b-32768"
     )
     
     result = response.choices[0].message.content.strip().lower()
