@@ -103,6 +103,7 @@ def check_tech_content(text, api_key):
             st.session_state.processing_error = "API key is required"
             return False, "Missing API key"
             
+        # Initialize Groq client with just the API key
         client = Groq(api_key=api_key)
         sample = text[:1500]  # Use a sample for efficiency
         
@@ -184,6 +185,7 @@ def generate_mcqs(chunks, difficulty, num_questions, model_id, api_key):
             num_questions=num_questions
         )
         
+        # Initialize Groq client with just the API key
         client = Groq(api_key=api_key)
         
         response = client.chat.completions.create(
