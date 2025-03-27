@@ -13,7 +13,6 @@ from groq import Groq
 st.set_page_config(
     page_title="AI MCQ Generator",
     page_icon="🤖",
-    layout="wide"
 )
 
 # Initialize session state variables
@@ -84,7 +83,7 @@ def process_document(file_path, file_type):
         # Load and split the document
         documents = loader.load()
         text_splitter = RecursiveCharacterTextSplitter(
-            chunk_size=800, 
+            chunk_size=1024, 
             chunk_overlap=200,
             length_function=len,
             is_separator_regex=False
@@ -108,7 +107,7 @@ def check_tech_content(text, api_key):
         sample = text[:1500]  # Use a sample for efficiency
         
         response = client.chat.completions.create(
-            model="mixtral-8x7b-32768",
+            model="llama-3.3-70b-versatile",
             messages=[
                 {
                     "role": "system",
@@ -120,7 +119,7 @@ def check_tech_content(text, api_key):
                 }
             ],
             temperature=0.1,
-            max_tokens=5
+            max_tokens=7
         )
         
         result = response.choices[0].message.content.strip().upper()
@@ -144,7 +143,7 @@ def generate_mcqs(chunks, difficulty, num_questions, model_id, api_key):
         
         # Retrieve relevant content from document
         retriever = vector_store.as_retriever()
-        context_docs = retriever.get_relevant_documents("Summarize the key concepts in this document")
+        context_docs = retriever.get_relevant_documents("Major Points discussed in the document")
         context = "\n\n".join([doc.page_content for doc in context_docs])
         
         # Create prompt template
@@ -193,8 +192,7 @@ def generate_mcqs(chunks, difficulty, num_questions, model_id, api_key):
             messages=[
                 {"role": "user", "content": formatted_prompt}
             ],
-            temperature=0.7,
-            max_tokens=3000
+            temperature=0.5,
         )
         
         return response.choices[0].message.content.strip()

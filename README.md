@@ -34,5 +34,3 @@ cd document-question-answering
 pip install -r requirements.txt
 streamlit run bot.py
 
-
-
