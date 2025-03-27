@@ -74,13 +74,16 @@ with st.sidebar:
 def process_document(file_path, file_type):
     """Process the uploaded document and split it into chunks"""
     try:
+        # Check if file is empty/corrupted
+        if os.path.getsize(file_path) == 0:
+            raise ValueError("Uploaded file is empty")
+        
         # Load document based on file type
         if file_type == "application/pdf":
             loader = PyPDFLoader(file_path)
         else:
             loader = UnstructuredWordDocumentLoader(file_path)
         
-        # Load and split the document
         documents = loader.load()
         text_splitter = RecursiveCharacterTextSplitter(
             chunk_size=1024, 
